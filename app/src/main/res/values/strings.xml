@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">The list</string>
+    <string name="error_message">Impossible de récupérer les albums</string>
+    <string name="no_item_message">La liste d\'albums est vide</string>
+</resources>
