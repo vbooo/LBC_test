@@ -11,7 +11,7 @@ import mypromotion.vboo.com.thelist.ui.ListViewModelFactory
 import kotlin.reflect.KClass
 
 /**
- * This modules provides ViewModelProvider.Factory and ViewModel instances
+ * This modules provides [ViewModelProvider.Factory] and [ViewModel] instances
  */
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)

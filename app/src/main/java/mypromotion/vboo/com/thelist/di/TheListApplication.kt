@@ -22,7 +22,7 @@ class TheListApplication : Application(), HasAndroidInjector {
 
         DaggerAppComponent.builder()
             .appModule(AppModule(this))
-            .networkModule(NetworkModule(BuildConfig.URL))
+            .networkModule(NetworkModule(BuildConfig.URL, this))
             .build()
             .inject(this)
     }

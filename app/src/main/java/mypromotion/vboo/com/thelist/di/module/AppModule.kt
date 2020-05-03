@@ -9,7 +9,7 @@ import mypromotion.vboo.com.thelist.db.dao.AlbumDao
 import javax.inject.Singleton
 
 /**
- * This module provides Application, AppDatabase and AlbumDao objects
+ * This module provides [Application], [AppDatabase] and [AlbumDao] objects
  */
 @Module
 class AppModule(private val app: Application){

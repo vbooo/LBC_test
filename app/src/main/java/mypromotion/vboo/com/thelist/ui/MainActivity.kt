@@ -1,7 +1,5 @@
 package mypromotion.vboo.com.thelist.ui
 
-import android.content.Context
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -12,9 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
+import mypromotion.vboo.com.thelist.utils.InternetCheck
 import mypromotion.vboo.com.thelist.R
 import mypromotion.vboo.com.thelist.db.entity.Album
-import mypromotion.vboo.com.thelist.extensions.isConnectedToNetwork
 import javax.inject.Inject
 
 /**
@@ -22,17 +20,12 @@ import javax.inject.Inject
  */
 class MainActivity : AppCompatActivity() {
 
-
-    companion object {
-        fun Context.isConnectedToNetwork(): Boolean {
-            val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-            return connectivityManager?.activeNetworkInfo?.isConnectedOrConnecting ?: false
-        }
-    }
-
     // Factory needed to create our ViewModel with custom parameter
     @Inject
     lateinit var albumViewModelFactory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var internetCheck: InternetCheck
 
     lateinit var mainActivityViewModelHelper: MainActivityViewModelHelper
 
@@ -54,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Implement the MainActivityViewModelHelper
-        mainActivityViewModelHelper = MainActivityViewModelHelper(this, listOf(), false, isConnectedToNetwork())
+        mainActivityViewModelHelper = MainActivityViewModelHelper(this, listOf(), false, internetCheck.isConnectedToNetwork())
 
         // Implement the ListViewModel with the ViewModelProvider.Factory help
         val listViewModel: ListViewModel by viewModels { albumViewModelFactory }
@@ -69,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 // Update the mainActivityViewModelHelper informations and then update the UI
                 mainActivityViewModelHelper.listAlbum = it
                 mainActivityViewModelHelper.isError = false
-                mainActivityViewModelHelper.isConnectedToNetwork = isConnectedToNetwork()
+                mainActivityViewModelHelper.isConnectedToNetwork = internetCheck.isConnectedToNetwork()
                 updateUI()
 
                 // Fill the albums list adapter
@@ -85,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
                 // Update the mainActivityViewModelHelper informations and then update the UI
                 mainActivityViewModelHelper.isError = true
-                mainActivityViewModelHelper.isConnectedToNetwork = isConnectedToNetwork()
+                mainActivityViewModelHelper.isConnectedToNetwork = internetCheck.isConnectedToNetwork()
                 updateUI()
             })
     }
@@ -94,8 +87,13 @@ class MainActivity : AppCompatActivity() {
      * Update the UI related informations
      */
     private fun updateUI() {
+        // update progress bar visibility
         activity_main_progress_bar.visibility = mainActivityViewModelHelper.getProgressBarVisibility()
+
+        // update main message visibility
         activity_main_message.visibility = mainActivityViewModelHelper.getMessageVisibility()
+
+        // update main message text
         activity_main_message.text = mainActivityViewModelHelper.getMessageValue()
     }
 

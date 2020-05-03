@@ -4,6 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * Album Entity
+ */
 @Entity
 data class Album (
     @PrimaryKey(autoGenerate = true) val id: Int,

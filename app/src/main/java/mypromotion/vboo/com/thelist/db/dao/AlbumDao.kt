@@ -4,6 +4,9 @@ import androidx.room.*
 import io.reactivex.Single
 import mypromotion.vboo.com.thelist.db.entity.Album
 
+/**
+ * [Album] DAO
+ */
 @Dao
 interface AlbumDao {
 

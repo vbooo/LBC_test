@@ -11,6 +11,7 @@ import mypromotion.vboo.com.thelist.db.entity.Album
  */
 class AlbumAdapter: RecyclerView.Adapter<AlbumHolder>(){
 
+    // This list contains all the Albums
     var listAlbums: List<Album>? = null
         set(value) {
             value?.let {

@@ -10,16 +10,25 @@ import mypromotion.vboo.com.thelist.db.entity.Album
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-
+/**
+ * This class ask information to the [ListRepository] and give them to the view ([MainActivity] here )
+ */
 class ListViewModel @Inject constructor(
     private val listRepository: ListRepository
 )
 : ViewModel() {
 
+    // List of albums
     var albumsResult: MutableLiveData<List<Album>> = MutableLiveData()
+
+    // Eventual error
     var albumsError: MutableLiveData<String> = MutableLiveData()
 
-
+    /**
+     * Ask the album list to the repository
+     * If we have a good connection and remote data take less than 500 ms,
+     * then we drop the locale album request and get the fresh data from the remote database
+     */
     fun loadAlbums() {
 
         val compositeDisposable = CompositeDisposable()
@@ -35,10 +44,16 @@ class ListViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Post error value
+     */
     private fun onFailure(t: Throwable?) {
         albumsError.postValue(t?.message)
     }
 
+    /**
+     * Post album list
+     */
     @Suppress("UNCHECKED_CAST")
     private fun onResponse(response: List<Any>?) {
         val albums: List<Album> = response as List<Album>

@@ -14,6 +14,9 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
+/**
+ * Test the [MainActivityViewModelHelper]
+ */
 @RunWith(JUnit4::class)
 class MainActivityViewModelHelperTest {
 

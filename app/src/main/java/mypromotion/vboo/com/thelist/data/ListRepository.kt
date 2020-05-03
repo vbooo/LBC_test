@@ -5,22 +5,25 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import io.reactivex.Observable
+import mypromotion.vboo.com.thelist.utils.InternetCheck
 import mypromotion.vboo.com.thelist.db.dao.AlbumDao
 import mypromotion.vboo.com.thelist.db.entity.Album
-import mypromotion.vboo.com.thelist.extensions.isConnectedToNetwork
-import mypromotion.vboo.com.thelist.ui.MainActivity
 import javax.inject.Inject
 
 /**
  * This class interacts with the remote and local data.
  * The viewModel ask informations to this repository
  */
-class ListRepository @Inject constructor(private val albumDao: AlbumDao, private val albumApi: AlbumAPI) {
+class ListRepository @Inject constructor(private val albumDao: AlbumDao, private val albumApi: AlbumAPI, private val internetCheck: InternetCheck) {
 
     fun getAlbums(): Observable<List<Any>> {
         val observableFromApi = getAlbumsFromApi()
         val observableFromDb = getAlbumsFromDb()
-        return Observable.concatArray(observableFromDb, observableFromApi)
+        return if (internetCheck.isConnectedToNetwork()) {
+            Observable.concatArray(observableFromDb, observableFromApi)
+        } else {
+            Observable.concatArray(observableFromDb)
+        }
     }
 
     /**

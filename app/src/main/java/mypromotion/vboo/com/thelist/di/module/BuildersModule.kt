@@ -5,7 +5,7 @@ import dagger.android.ContributesAndroidInjector
 import mypromotion.vboo.com.thelist.ui.MainActivity
 
 /**
- * This module provides a MainActivity instance
+ * This module provides a [MainActivity] instance
  */
 @Module
 abstract class BuildersModule {
